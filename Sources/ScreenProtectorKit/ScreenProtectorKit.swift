@@ -21,7 +21,16 @@ public class ScreenProtectorKit {
     private var screenImage: UIImageView? = nil
     private var screenBlur: UIView? = nil
     private var screenColor: UIView? = nil
-    private var screenPrevent = UITextField()
+    private var screenPrevent: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .clear
+        textField.isUserInteractionEnabled = false
+        textField.borderStyle = .none
+        textField.text = ""
+        textField.placeholder = ""
+        textField.isHidden = true
+        return textField
+    }()
     private var screenshotObserve: NSObjectProtocol? = nil
     private var screenRecordObserve: NSObjectProtocol? = nil
     
@@ -45,14 +54,11 @@ public class ScreenProtectorKit {
         
         if (!w.subviews.contains(screenPrevent)) {
             w.addSubview(screenPrevent)
-            screenPrevent.centerYAnchor.constraint(equalTo: w.centerYAnchor).isActive = true
-            screenPrevent.centerXAnchor.constraint(equalTo: w.centerXAnchor).isActive = true
-            w.layer.superlayer?.addSublayer(screenPrevent.layer)
-            if #available(iOS 17.0, *) {
-                screenPrevent.layer.sublayers?.last?.addSublayer(w.layer)
-            } else {
-                screenPrevent.layer.sublayers?.first?.addSublayer(w.layer)
-            }
+            screenPrevent.translatesAutoresizingMaskIntoConstraints = false
+            screenPrevent.topAnchor.constraint(equalTo: w.topAnchor).isActive = true
+            screenPrevent.bottomAnchor.constraint(equalTo: w.bottomAnchor).isActive = true
+            screenPrevent.leadingAnchor.constraint(equalTo: w.leadingAnchor).isActive = true
+            screenPrevent.trailingAnchor.constraint(equalTo: w.trailingAnchor).isActive = true
         }
     }
     
